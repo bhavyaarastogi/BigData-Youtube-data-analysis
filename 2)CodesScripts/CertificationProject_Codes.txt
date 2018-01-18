@@ -1,0 +1,27 @@
+----PIG COMMANDS for PROBLEM STATEMENT 1----
+grunt> records = LOAD '/27may/Final/youtubedata.txt' as (videoID:chararray, uploader:chararray,time:int,category:chararray, length:int, viewcount:int, rating:float, ratingcount:int, related:chararray);
+grunt> ps1 = foreach records generate videoID,category;
+grunt> category_group = group ps1 by category;
+grunt> count = foreach category_group generate group, COUNT(ps1);
+grunt> sorted = ORDER count by $1 desc;
+grunt> top5 = LIMIT sorted 5;
+grunt> store top5 INTO '/27may/Final/ProblemA/Output';
+
+
+
+
+----PIG COMMANDS for PROBLEM STATEMENT 2----
+grunt> records = LOAD '/27may/Final/youtubedata.txt' as (videoID:chararray, uploader:chararray,time:int,category:chararray, length:int, viewcount:int, rating:float, ratingcount:int, related:chararray);
+grunt> ps2 = foreach records generate videoID,category,rating;
+grunt> rated = order ps2 by rating desc;
+grunt> toprated = LIMIT rated 10;
+grunt> store toprated INTO '/27may/Final/ProblemB/Output';
+
+
+----PIG COMMANDS for PROBLEM STATEMENT 3----
+
+grunt>records = LOAD '/27may/Final/youtubedata.txt' as (videoID:chararray, uploader:chararray,time:int,category:chararray, length:int, viewcount:int, rating:float, ratingcount:int, related:chararray);
+grunt> ps3 = foreach records generate videoID,category,viewcount;
+grunt> sorted = ORDER ps3 by viewcount;
+grunt> top10 = LIMIT sorted by 10;
+grunt> store top10 INTO '/27may/Final/ProblemC/Output';
